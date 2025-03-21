@@ -47,17 +47,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            Debug.Log("Працює");
-        }
-        else {
-            Debug.Log("Не працює");
         }
     }
 
     void Animate()
     {
-        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
-        animator.SetBool("IsJumping", !isGrounded);
+
     }
 
     void Flip()
