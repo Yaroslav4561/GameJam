@@ -3,18 +3,18 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;      
-    public float jumpForce = 10f;     
+    public float moveSpeed = 5f;
+    public float jumpForce = 10f;
 
     [Header("Ground Check")]
-    public Transform groundCheck;     
-    public LayerMask groundLayer;    
+    public Transform groundCheck;
+    public LayerMask groundLayer;
     public float groundCheckRadius = 0.2f;
 
     private Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;  // Тепер контролюється в цьому скрипті
 
     void Start()
     {
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Animate()
     {
-
+        // Тут можна додавати анімації для руху або стрибка
     }
 
     void Flip()
