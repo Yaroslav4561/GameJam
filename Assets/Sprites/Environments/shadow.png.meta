@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3be97250d4bf8e946ad808d9402440fb
+guid: a02f6201da88be8459711fe00f883cf4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: shadow_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 400
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50eaffa4b0122e34da41e4526008cd26
+      internalID: 363548581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      shadow_0: 363548581
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
