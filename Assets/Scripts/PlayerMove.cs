@@ -7,26 +7,23 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 10f;
 
     [Header("Ground Check")]
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public float groundCheckRadius = 0.2f;
+    public Transform groundCheck;  // Посилання на об'єкт GroundCheck
+    public LayerMask groundLayer;  // Для вибору шару землі
+    public float groundCheckRadius = 0.2f;  // Радіус перевірки
 
     private Rigidbody2D rb;
-    private Animator animator;
     private bool isGrounded;
     public bool isFacingRight = true;  // Тепер контролюється в цьому скрипті
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         Move();
         Jump();
-        Animate();
     }
 
     void Move()
@@ -42,17 +39,22 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        // Перевірка на зіткнення з землею
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (isGrounded)
+        {
+            Debug.Log("Персонаж на землі.");
+        }
+        else
+        {
+            Debug.Log("Персонаж в повітрі.");
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
-    }
-
-    void Animate()
-    {
-        // Тут можна додавати анімації для руху або стрибка
     }
 
     void Flip()
