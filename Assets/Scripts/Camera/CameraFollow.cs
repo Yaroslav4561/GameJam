@@ -1,22 +1,23 @@
 using UnityEngine;
 
-public class CameraFollowX : MonoBehaviour
+public class CameraFollow : MonoBehaviour
 {
-    public Transform target;  // Персонаж
-    public float smoothSpeed = 0.125f;  // Швидкість слідування
-    public float offsetX = 5f;  // Відстань від персонажа по X
+    public Transform target;  // РћР±'С”РєС‚, Р·Р° СЏРєРёРј СЃР»С–РґСѓС” РєР°РјРµСЂР° (РіСЂР°РІРµС†СЊ)
+    public float smoothSpeed = 0.125f;  // РЁРІРёРґРєС–СЃС‚СЊ Р·РіР»Р°РґР¶СѓРІР°РЅРЅСЏ
+    public float offsetX = 0f;  // Р—СЃСѓРІ РїРѕ РѕСЃС– X
+    public float offsetY = 0f;  // Р—СЃСѓРІ РїРѕ РѕСЃС– Y
 
     void LateUpdate()
     {
         if (target == null) return;
 
-        // Отримуємо поточну позицію камери
         Vector3 currentPosition = transform.position;
 
-        // Нове значення X для камери (з плавним переходом)
+        // РџР»Р°РІРЅРµ СЃР»С–РґСѓРІР°РЅРЅСЏ Р·Р° РіСЂР°РІС†РµРј РїРѕ X С– Y
         float targetX = Mathf.Lerp(currentPosition.x, target.position.x + offsetX, smoothSpeed);
+        float targetY = Mathf.Lerp(currentPosition.y, target.position.y + offsetY, smoothSpeed);
 
-        // Призначаємо нову позицію, але залишаємо Y та Z незмінними
-        transform.position = new Vector3(targetX, currentPosition.y, currentPosition.z);
+        // РћРЅРѕРІР»РµРЅРЅСЏ РїРѕР·РёС†С–С— РєР°РјРµСЂРё
+        transform.position = new Vector3(targetX, targetY, currentPosition.z);
     }
 }
