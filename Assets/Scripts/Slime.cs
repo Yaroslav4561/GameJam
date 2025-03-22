@@ -1,88 +1,113 @@
 using UnityEngine;
+using System.Collections;
 
 public class SlimeAI : MonoBehaviour
 {
-    public Transform blueWizard;
-    public float patrolSpeed = 1f; // Повільна швидкість патрулювання
-    public float chaseSpeed = 3f;  // Швидкість переслідування
-    public float jumpForce = 250f; // Сила стрибка
-    public float attackRange = 1.5f;
-    public float actionInterval = 1f;
+    public Transform BlueWizard; // Ціль (гравець)
+    public float wanderSpeed = 2f; // Швидкість блукання
+    public float chaseSpeed = 4f; // Швидкість переслідування
+    public float attackRange = 0.5f; // Дистанція для атаки
+    public float visionRange = 5f; // Дистанція огляду
+    public float wanderInterval = 2f; // Інтервал між блуканням
+    public LayerMask obstacleLayer; // Шар для перевірки перешкод
 
     private Rigidbody2D rb;
-    private float nextActionTime = 0;
-    private bool seesPlayer = false;
-    private Vector2 patrolDirection;
+    private Vector3 wanderTarget;
+    private bool isChasing = false; // Чи переслідує ворог
+    private bool isAttacking = false; // Чи атакує ворог
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        SetRandomPatrolDirection();
+        StartCoroutine(WanderRoutine()); // Починаємо блукання
     }
 
     void Update()
     {
-        seesPlayer = CanSeePlayer();
+        if (BlueWizard == null) return; // Перевірка, чи існує гравець
 
-        if (Time.time >= nextActionTime)
+        float distanceToPlayer = Vector2.Distance(transform.position, BlueWizard.position);
+        bool canSeePlayer = CanSeePlayer();
+
+        if (distanceToPlayer <= attackRange && canSeePlayer)
         {
-            if (seesPlayer)
-            {
-                MoveTowardsPlayer(chaseSpeed);
-
-                if (Random.value < 0.3f) // 30% шанс стрибка
-                {
-                    Jump();
-                }
-            }
-            else
-            {
-                Patrol();
-            }
-
-            nextActionTime = Time.time + actionInterval;
+            if (!isAttacking)
+                StartCoroutine(AttackRoutine());
         }
-    }
-
-    void MoveTowardsPlayer(float speed)
-    {
-        Vector2 direction = (blueWizard.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
-    }
-
-    void Patrol()
-    {
-        if (Random.value < 0.02f) // Зміна напряму іноді
+        else if (canSeePlayer)
         {
-            SetRandomPatrolDirection();
+            StopCoroutine(WanderRoutine());
+            ChasePlayer();
         }
-
-        rb.velocity = new Vector2(patrolDirection.x * patrolSpeed, rb.velocity.y);
-    }
-
-    void SetRandomPatrolDirection()
-    {
-        patrolDirection = Random.value > 0.5f ? Vector2.right : Vector2.left;
-    }
-
-    void Jump()
-    {
-        if (Mathf.Approximately(rb.velocity.y, 0))
+        else if (!isChasing && !isAttacking)
         {
-            rb.AddForce(Vector2.up * jumpForce);
+            StartCoroutine(WanderRoutine());
         }
     }
 
     bool CanSeePlayer()
     {
-        Vector2 direction = (blueWizard.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, attackRange);
+        if (BlueWizard == null) return false;
 
-        if (hit.collider != null && hit.collider.transform == blueWizard)
+        Vector2 directionToPlayer = (BlueWizard.position - transform.position).normalized;
+        float distanceToPlayer = Vector2.Distance(transform.position, BlueWizard.position);
+
+        if (distanceToPlayer > visionRange) return false; // Гравець за межами огляду
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleLayer);
+        Debug.DrawRay(transform.position, directionToPlayer * distanceToPlayer, Color.red, 0.1f);
+
+        return hit.collider == null; // Якщо немає перешкод, гравця видно
+    }
+
+    void ChasePlayer()
+    {
+        isChasing = true;
+
+        Vector2 moveDirection = (BlueWizard.position - transform.position).normalized;
+        rb.velocity = moveDirection * chaseSpeed;
+
+        if (Vector2.Distance(transform.position, BlueWizard.position) <= attackRange)
         {
-            return true;
+            rb.velocity = Vector2.zero; // Зупинка перед атакою
+            isChasing = false;
         }
+    }
 
-        return false;
+    IEnumerator AttackRoutine()
+    {
+        isAttacking = true;
+        rb.velocity = Vector2.zero; // Зупинка перед атакою
+
+        Debug.Log("Slime attacks!"); // Атака, тут можна додати логіку (наприклад, нанесення шкоди)
+
+        yield return new WaitForSeconds(1f); // Затримка між атаками
+        isAttacking = false;
+    }
+
+    IEnumerator WanderRoutine()
+    {
+        while (true)
+        {
+            if (isChasing || isAttacking) yield break;
+
+            SetRandomWanderTarget();
+            Vector2 moveDirection = (wanderTarget - transform.position).normalized;
+            rb.velocity = moveDirection * wanderSpeed;
+
+            yield return new WaitForSeconds(wanderInterval);
+            rb.velocity = Vector2.zero;
+
+            yield return new WaitForSeconds(Random.Range(1f, 3f)); // Затримка перед наступним рухом
+        }
+    }
+
+    void SetRandomWanderTarget()
+    {
+        wanderTarget = new Vector3(
+            transform.position.x + Random.Range(-3f, 3f),
+            transform.position.y + Random.Range(-3f, 3f),
+            transform.position.z
+        );
     }
 }
