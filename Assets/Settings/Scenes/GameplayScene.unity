@@ -2444,6 +2444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1071803515}
   - component: {fileID: 1071803514}
+  - component: {fileID: 1071803516}
   m_Layer: 0
   m_Name: Pipe
   m_TagString: Untagged
@@ -2491,7 +2492,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 40979425, guid: 472abf876cd7cd44da2578d7d1aa0e06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2518,6 +2519,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 671094150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1071803516
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071803513}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.27325436, y: 0.5871282}
+  - {x: -0.26885313, y: 0.58737534}
+  - {x: -0.22919464, y: 0.583924}
+  - {x: -0.23216751, y: 0.8844483}
+  - {x: -0.29221457, y: 0.88354176}
+  - {x: -0.31420788, y: 0.8833996}
+  - {x: -0.31607077, y: 0.58823127}
+  - {x: -0.27463824, y: 0.58742833}
+  - {x: -0.27229926, y: 0.078946985}
+  - {x: 0.27825332, y: 0.083460085}
+  - {x: 0.27908796, y: 0.3113506}
+  - {x: 0.27963722, y: 0.58737135}
+  - {x: 0.315286, y: 0.58762}
+  - {x: 0.31287384, y: 0.8795657}
+  - {x: 0.23173696, y: 0.880367}
+  - {x: 0.23548856, y: 0.58869845}
+  - {x: 0.27905673, y: 0.5870819}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &1107451860
 PrefabInstance:
   m_ObjectHideFlags: 0
